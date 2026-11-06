@@ -41,7 +41,7 @@ namespace CSharpPracticum.Common
             Console.WriteLine("--------------------------------------------------");
             Console.WriteLine($"Описание: {description}");
             Console.WriteLine("Требования:");
-            Console.WriteLine("- " + string.Join("\n - ", requirements));
+            Console.WriteLine(" - " + string.Join("\n - ", requirements));
             Console.WriteLine();
         }
 
