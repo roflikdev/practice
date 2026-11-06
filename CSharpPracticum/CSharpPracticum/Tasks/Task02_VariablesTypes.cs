@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace CSharpPracticum.Tasks
 {
-    internal class Task02_VariablesTypes : ITask
+    /// <summary>
+    /// Уровень 1. Задание 2.
+    /// </summary>
+    public class Task02_VariablesTypes : ITask
     {
         public string Title => "Задание 2. Переменные примитивных типов";
         public string Description => "Объявить переменные всех примитивных типов и вывести их значения и типы.";
