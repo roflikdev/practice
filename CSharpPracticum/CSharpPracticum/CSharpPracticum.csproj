@@ -52,6 +52,7 @@
     <Compile Include="Tasks\Task01_HelloWorld.cs" />
     <Compile Include="Tasks\Task02_VariablesTypes.cs" />
     <Compile Include="Tasks\Task03_Calculator.cs" />
+    <Compile Include="Tasks\Task04_Even.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
