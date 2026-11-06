@@ -39,7 +39,8 @@ namespace CSharpPracticum.Menu
                 ConsoleHelper.ShowHeader("Уровень 1: Базовый");
                 Console.WriteLine("1. Задание 1. Hello, World + текущая дата");
                 Console.WriteLine("2. Задание 2. Переменные примитивных типов");
-                Console.WriteLine("3. Назад");
+                Console.WriteLine("3. Задание 3. алькулятор с обработкой деления на ноль");
+                Console.WriteLine("4. Назад");
                 Console.WriteLine("\nВыберите задание:");
                 string input = Console.ReadLine();
                 if (int.TryParse(input, out int level))
@@ -53,6 +54,9 @@ namespace CSharpPracticum.Menu
                             new Task02_VariablesTypes().Run();
                             break;
                         case 3:
+                            new Task03_Calculator().Run();
+                            break;
+                        case 4:
                             isWork = false;
                             break;
                     }
