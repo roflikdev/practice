@@ -67,3 +67,9 @@ git log --oneline
 
 Conventional Commits помогают понять историю изменений.
 После squash три небольших коммита становятся одним.
+
+### PR link
+
+https://github.com/roflikdev/practice/pull/5
+
+Проверял наличие .gitignore, .editorconfig, README.md и отдельных коммитов заданий.
