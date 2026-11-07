@@ -17,7 +17,7 @@ namespace CSharpPracticum.Menu
             Console.WriteLine("4. Выход");
             Console.WriteLine("\nВыберите уровень:");
             string input = Console.ReadLine();
-            if (input == "q" || input == "0") return 4;
+            if (input == null || input == "q" || input == "0") return 4;
             return int.TryParse(input, out int number) ? number : -1;
         }
 
@@ -94,7 +94,7 @@ namespace CSharpPracticum.Menu
                 Console.WriteLine("0. Назад");
                 Console.WriteLine("\nВыберите задание:");
                 string input = Console.ReadLine();
-                if (input == "0" || input == "q")
+                if (input == null || input == "0" || input == "q")
                 {
                     isWork = false;
                 }
