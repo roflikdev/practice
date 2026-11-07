@@ -4,8 +4,6 @@
 
 ## Запуск
 
-Нужен .NET SDK 8.0 или новее.
-
 ```bash
 dotnet build
 dotnet run --project CSharpPracticum/CSharpPracticum/CSharpPracticum.csproj
