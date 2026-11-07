@@ -1,41 +1,36 @@
-﻿using CSharpPracticum.Common;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using CSharpPracticum.Common;
 namespace CSharpPracticum.Tasks
 {
-    /// <summary>
-    /// Уровень 1. Задание 2.
-    /// </summary>
+    /// <summary>Уровень 1. Задание 2.</summary>
     public class Task02_VariablesTypes : ITask
     {
+        /// <summary>Название задания.</summary>
         public string Title => "Задание 2. Переменные примитивных типов";
-        public string Description => "Объявить переменные всех примитивных типов и вывести их значения и типы.";
-        public string[] Requirements => new string[] { "Объявить минимум: int, long, double, float, decimal, bool, char, string.", "Для каждой переменной вывести значение и GetType().Name.", "decimal — с суффиксом m, float — с f." };
-
+        /// <summary>Описание задания.</summary>
+        public string Description => "Объявить переменные разных типов и вывести их значения и типы.";
+        /// <summary>Требования.</summary>
+        public string[] Requirements => new string[] { "int, long, double, float, decimal, bool, char, string.", "Для каждого GetType().Name.", "Суффиксы f и m." };
+        /// <summary>Запуск.</summary>
         public void Run()
         {
             ConsoleHelper.ShowTaskInfo(Title, Description, Requirements);
             int a = 67;
-            long b = 148867524213;
+            long b = 148867524213L;
             double c = 3.14;
             float d = 12f;
             decimal v = 8m;
             bool isD = false;
             char k = 'a';
             string g = "hello";
-
-            Console.WriteLine($"{a} - {a.GetType().Name}");
-            Console.WriteLine($"{b} - {b.GetType().Name}");
-            Console.WriteLine($"{c} - {c.GetType().Name}");
-            Console.WriteLine($"{d}f - {d.GetType().Name}");
-            Console.WriteLine($"{v}m - {v.GetType().Name}");
-            Console.WriteLine($"{isD} - {isD.GetType().Name}");
-            Console.WriteLine($"{k} - {k.GetType().Name}");
-            Console.WriteLine($"{g} - {g.GetType().Name}");
+            Console.WriteLine($"a = {a} ({a.GetType().Name})");
+            Console.WriteLine($"b = {b} ({b.GetType().Name})");
+            Console.WriteLine($"c = {c} ({c.GetType().Name})");
+            Console.WriteLine($"d = {d} ({d.GetType().Name})");
+            Console.WriteLine($"v = {v} ({v.GetType().Name})");
+            Console.WriteLine($"isD = {isD} ({isD.GetType().Name})");
+            Console.WriteLine($"k = {k} ({k.GetType().Name})");
+            Console.WriteLine($"g = {g} ({g.GetType().Name})");
             ConsoleHelper.ShowReadyTask();
         }
     }

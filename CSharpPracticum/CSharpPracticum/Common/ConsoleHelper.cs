@@ -1,53 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 
 namespace CSharpPracticum.Common
 {
-    /// <summary>
-    /// Вспомогательные функции для работы с консолью.
-    /// </summary>
+    /// <summary>Работа с консолью.</summary>
     public class ConsoleHelper
     {
-        /// <summary>
-        /// Очищает консоль и выводит заголовок.
-        /// </summary>
+        /// <summary>Выводит заголовок меню.</summary>
         /// <param name="title">Заголовок.</param>
-        /// <param name="isMain">Включает оформление главного меню.</param>
+        /// <param name="isMain">Главное меню.</param>
         public static void ShowHeader(string title, bool isMain = false)
         {
-            Console.Clear();
-            if (isMain)
-            {
-                Console.WriteLine($"=== {title} ===");
-            } else
-            {
-                Console.WriteLine($"--- {title} ---");
-            }
+            if (!Console.IsOutputRedirected) Console.Clear();
+            Console.WriteLine(isMain ? "=== " + title + " ===" : "--- " + title + " ---");
         }
-        /// <summary>
-        /// Вывести информацию задания.
-        /// </summary>
-        /// <param name="title">Заголовок.</param>
+
+        /// <summary>Показывает описание и требования задания.</summary>
+        /// <param name="title">Название.</param>
         /// <param name="description">Описание.</param>
         /// <param name="requirements">Требования.</param>
         public static void ShowTaskInfo(string title, string description, string[] requirements)
         {
-            Console.Clear();
+            if (!Console.IsOutputRedirected) Console.Clear();
             Console.WriteLine("==================================================");
             Console.WriteLine(title);
             Console.WriteLine("--------------------------------------------------");
-            Console.WriteLine($"Описание: {description}");
+            Console.WriteLine("Описание: " + description);
             Console.WriteLine("Требования:");
-            Console.WriteLine(" - " + string.Join("\n - ", requirements));
-            Console.WriteLine();
+            foreach (string requirement in requirements)
+                Console.WriteLine(" - " + requirement);
+            Console.WriteLine("Подсказка: используйте стандартные классы .NET и методы C#.");
+            Console.WriteLine("--------------------------------------------------");
         }
 
-        /// <summary>
-        /// Вывести информацию о конце исполнения задания.
-        /// </summary>
+        /// <summary>Возвращает в меню после задания.</summary>
         public static void ShowReadyTask()
         {
             Console.WriteLine();

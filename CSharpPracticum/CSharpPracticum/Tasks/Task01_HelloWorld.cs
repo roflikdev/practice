@@ -1,26 +1,22 @@
-﻿using CSharpPracticum.Common;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using CSharpPracticum.Common;
 namespace CSharpPracticum.Tasks
 {
-    /// <summary>
-    /// 1 Уровень 1 Задание.
-    /// </summary>
+    /// <summary>Уровень 1. Задание 1.</summary>
     public class Task01_HelloWorld : ITask
     {
-        public string Title => "Задание 1: Hello, World + текущая дата";
+        /// <summary>Название задания.</summary>
+        public string Title => "Задание 1. Hello, World + текущая дата";
+        /// <summary>Описание задания.</summary>
         public string Description => "Вывести приветствие и текущую дату.";
-        public string[] Requirements => new string[] { "Использовать Console.WriteLine.", "Дату получить через DateTime.Now, отформатировать как dd.MM.yyyy.", "Вывести две строки: приветствие и дату." };
-
+        /// <summary>Требования.</summary>
+        public string[] Requirements => new string[] { "Console.WriteLine", "Дата через DateTime.Now в формате dd.MM.yyyy.", "Две строки вывода." };
+        /// <summary>Запуск.</summary>
         public void Run()
         {
             ConsoleHelper.ShowTaskInfo(Title, Description, Requirements);
-            DateTime now = DateTime.Now;
-            Console.WriteLine($"Hello, World {now.Day}.{now.Month}.{now.Year}");
+            Console.WriteLine("Hello, World!");
+            Console.WriteLine(DateTime.Now.ToString("dd.MM.yyyy"));
             ConsoleHelper.ShowReadyTask();
         }
     }
