@@ -48,10 +48,30 @@ namespace CSharpPracticum.Menu
         /// <summary>Открывает второй уровень.</summary>
         public static void StartLevel2()
         {
-            ConsoleHelper.ShowHeader("Уровень 2: Средний");
-            Console.WriteLine("Задания добавляются.");
-            Console.WriteLine("Нажмите Enter для возврата.");
-            Console.ReadLine();
+            ITask[] tasks = new ITask[]
+            {
+                new Task16_Extensions(),
+                new Task17_StringBuilder(),
+                new Task18_Parsing(),
+                new Task19_StackQueue(),
+                new Task20_Generics(),
+                new Task21_Days(),
+                new Task22_Params(),
+                new Task23_Nullable(),
+                new Task24_Animals(),
+                new Task25_Shapes(),
+                new Task26_Strategy(),
+                new Task27_Students(),
+                new Task28_Points(),
+                new Task29_Factory(),
+                new Task30_Bank(),
+                new Task31_FileWriter(),
+                new Task32_Temperature(),
+                new Task33_Employees(),
+                new Task34_Groups(),
+                new Task35_GitAdvanced()
+            };
+            ShowTasks("Уровень 2: Средний", tasks, 16);
         }
 
         /// <summary>Открывает третий уровень.</summary>
