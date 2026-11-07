@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace CSharpPracticum.Common
 {
-    /// <summary>
-    /// Определяет обязательные элементы каждого задания.
-    /// </summary>
+    /// <summary>Общие свойства и метод каждого задания.</summary>
     public interface ITask
     {
+        /// <summary>Название задания.</summary>
         string Title { get; }
+        /// <summary>Описание задания.</summary>
         string Description { get; }
+        /// <summary>Требования к заданию.</summary>
         string[] Requirements { get; }
+        /// <summary>Запуск решения.</summary>
         void Run();
     }
 }

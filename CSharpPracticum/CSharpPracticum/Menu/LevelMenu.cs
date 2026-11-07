@@ -1,71 +1,94 @@
-﻿using CSharpPracticum.Common;
-using CSharpPracticum.Tasks;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CSharpPracticum.Common;
+using CSharpPracticum.Tasks;
 
 namespace CSharpPracticum.Menu
 {
+    /// <summary>Меню выбора задания.</summary>
     public class LevelMenu
     {
-        /// <summary>
-        /// Выводит список доступных уровней.
-        /// </summary>
+        /// <summary>Показывает главное меню.</summary>
         public static int ShowLevels()
         {
-            ConsoleHelper.ShowHeader("Практикум C#", true);
+            ConsoleHelper.ShowHeader("Практикум по C#", true);
             Console.WriteLine("1. Уровень 1 — Базовый (задания 1–15)");
-            Console.WriteLine("2. Выход");
+            Console.WriteLine("2. Уровень 2 — Средний (задания 16–35)");
+            Console.WriteLine("3. Уровень 3 — Продвинутый (задания 36–50)");
+            Console.WriteLine("4. Выход");
             Console.WriteLine("\nВыберите уровень:");
             string input = Console.ReadLine();
-            if (int.TryParse(input, out int level))
-            {
-                return level;
-            } else
-            {
-                return -1;
-            }
+            if (input == "q" || input == "0") return 4;
+            return int.TryParse(input, out int number) ? number : -1;
         }
-        /// <summary>
-        /// Выводит задания первого уровня.
-        /// </summary>
+
+        /// <summary>Открывает первый уровень.</summary>
         public static void StartLevel1()
+        {
+            ITask[] tasks = new ITask[]
+            {
+                new Task01_HelloWorld(),
+                new Task02_VariablesTypes(),
+                new Task03_Calculator(),
+                new Task04_Even(),
+                new Task05_Table(),
+                new Task06_DigitSum(),
+                new Task07_Reverse(),
+                new Task08_FizzBuzz(),
+                new Task09_ArrayStats(),
+                new Task10_Sorting(),
+                new Task11_Matrix(),
+                new Task12_Palindrome(),
+                new Task13_Words(),
+                new Task14_Age(),
+                new Task15_GitBasics()
+            };
+            ShowTasks("Уровень 1: Базовый", tasks, 1);
+        }
+
+        /// <summary>Открывает второй уровень.</summary>
+        public static void StartLevel2()
+        {
+            ConsoleHelper.ShowHeader("Уровень 2: Средний");
+            Console.WriteLine("Задания добавляются.");
+            Console.WriteLine("Нажмите Enter для возврата.");
+            Console.ReadLine();
+        }
+
+        /// <summary>Открывает третий уровень.</summary>
+        public static void StartLevel3()
+        {
+            ConsoleHelper.ShowHeader("Уровень 3: Продвинутый");
+            Console.WriteLine("Задания 36–50 пока не сделаны.");
+            Console.WriteLine("Нажмите Enter для возврата.");
+            Console.ReadLine();
+        }
+
+        private static void ShowTasks(string title, ITask[] tasks, int firstNumber)
         {
             bool isWork = true;
             while (isWork)
             {
-                ConsoleHelper.ShowHeader("Уровень 1: Базовый");
-                Console.WriteLine("1. Задание 1. Hello, World + текущая дата");
-                Console.WriteLine("2. Задание 2. Переменные примитивных типов");
-                Console.WriteLine("3. Задание 3. алькулятор с обработкой деления на ноль");
-                Console.WriteLine("4. Задание 4. Чётность числа (два способа)");
-                Console.WriteLine("5. Назад");
+                ConsoleHelper.ShowHeader(title);
+                for (int i = 0; i < tasks.Length; i++)
+                    Console.WriteLine((firstNumber + i) + ". " + tasks[i].Title);
+                Console.WriteLine("0. Назад");
                 Console.WriteLine("\nВыберите задание:");
                 string input = Console.ReadLine();
-                if (int.TryParse(input, out int level))
+                if (input == "0" || input == "q")
                 {
-                    switch (level)
+                    isWork = false;
+                }
+                else if (int.TryParse(input, out int number))
+                {
+                    int index = number - firstNumber;
+                    if (index >= 0 && index < tasks.Length)
+                        tasks[index].Run();
+                    else
                     {
-                        case 1:
-                            new Task01_HelloWorld().Run();
-                            break;
-                        case 2:
-                            new Task02_VariablesTypes().Run();
-                            break;
-                        case 3:
-                            new Task03_Calculator().Run();
-                            break;
-                        case 4:
-                            new Task04_Even().Run();
-                            break;
-                        case 5:
-                            isWork = false;
-                            break;
+                        Console.WriteLine("Нет такого задания.");
+                        Console.ReadLine();
                     }
                 }
-
             }
         }
     }
