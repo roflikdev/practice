@@ -46,3 +46,24 @@ Automatic merge failed; fix conflicts and then commit the result.
 
 Если две ветки меняют одну строку, Git не может выбрать вариант сам.
 Нужно исправить файл и сохранить результат новым коммитом.
+
+## Task 35 — Branches, PR and rebase
+
+### Commands
+
+```bash
+git switch -c feature/task-35
+git add git-notes.md
+git commit -m "docs: task 35 - add git notes"
+git push -u origin feature/task-35
+# Открыть PR в main и слить его
+git switch -c feature/rebase-demo
+# Сделать 3 небольших коммита
+git rebase -i HEAD~3
+git log --oneline
+```
+
+### What I learned
+
+Conventional Commits помогают понять историю изменений.
+После squash три небольших коммита становятся одним.
