@@ -1,25 +1,30 @@
-﻿using CSharpPracticum.Common;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using CSharpPracticum.Common;
 namespace CSharpPracticum.Tasks
 {
-    public class Task03_Calculator: ITask
+    /// <summary>Уровень 1. Задание 3.</summary>
+    public class Task03_Calculator : ITask
     {
+        /// <summary>Название задания.</summary>
         public string Title => "Задание 3. Калькулятор с обработкой деления на ноль";
-        public string Description => "принимать два числа и оператор (+ - * /), выводить результат.";
-        public string[] Requirements => new string[] { "Оператор обрабатывать через switch.", "При делении на ноль — вывести сообщение об ошибке, не ронять приложение.", "Некорректный оператор — вывести «Неизвестная операция».", "Ввод чисел — через double.Parse или TryParse." };
-
+        /// <summary>Описание задания.</summary>
+        public string Description => "Принять два числа и оператор, вывести результат.";
+        /// <summary>Требования.</summary>
+        public string[] Requirements => new string[] { "Операции через switch.", "Проверить деление на ноль.", "Неизвестная операция.", "Ввод чисел через TryParse." };
+        /// <summary>Запуск.</summary>
         public void Run()
         {
             ConsoleHelper.ShowTaskInfo(Title, Description, Requirements);
             Console.WriteLine("Введите первое число:");
-            double a = double.Parse(Console.ReadLine());
+            bool first = double.TryParse(Console.ReadLine(), out double a);
             Console.WriteLine("Введите второе число:");
-            double b = double.Parse(Console.ReadLine());
+            bool second = double.TryParse(Console.ReadLine(), out double b);
+            if (!first || !second)
+            {
+                Console.WriteLine("Неверное число.");
+                ConsoleHelper.ShowReadyTask();
+                return;
+            }
             Console.WriteLine("Введите оператор (+, -, *, /):");
             string o = Console.ReadLine();
             switch (o)
@@ -35,15 +40,12 @@ namespace CSharpPracticum.Tasks
                     break;
                 case "/":
                     if (b != 0)
-                    {
                         Console.WriteLine("Результат: " + (a / b));
-                    } else
-                    {
+                    else
                         Console.WriteLine("Ошибка: нельзя делить на 0.");
-                    }
                     break;
                 default:
-                    Console.WriteLine("Неккоректный оператор");
+                    Console.WriteLine("Неизвестная операция");
                     break;
             }
             ConsoleHelper.ShowReadyTask();
