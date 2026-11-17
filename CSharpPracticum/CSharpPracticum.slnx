@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="CSharpPracticum/CSharpPracticum.csproj" Id="71cacf36-c43b-43f0-84a5-93e3c65bbb96" />
+  <Project Path="CSharpPracticum.Tests/CSharpPracticum.Tests.csproj" Id="e88356c1-6183-473b-a3ef-97a7c700f145" />
 </Solution>
