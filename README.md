@@ -64,7 +64,7 @@ dotnet run --project CSharpPracticum/CSharpPracticum/CSharpPracticum.csproj
 | 45 | Библиотека и тесты | Выполнено |
 | 46 | Git: stash | Выполнено |
 | 47 | Git: rebase -i | Выполнено |
-| 48 | Git: теги | Выполнено |
+| 48 | Git: теги | В работе |
 | 49 | Git: reflog | Выполнено |
 | 50 | Git: bisect | Выполнено |
 
@@ -74,7 +74,7 @@ dotnet run --project CSharpPracticum/CSharpPracticum/CSharpPracticum.csproj
 
 **Уровень 2.** Попробовал интерфейсы, наследование, обобщения, исключения, файлы и LINQ. В задании 22 обычный `int[]` нельзя перегрузить одновременно с `params int[]`, поэтому вторая перегрузка принимает `IEnumerable<int>`.
 
-**Уровень 3.** Попробовал HashSet, Dictionary, yield return, async/await и отмену задач. Сделал список дел с JSON и небольшую библиотеку с тестами. В Git потренировался со stash, rebase, тегами, reflog и bisect. Всё получилось, сложностей с заданиями не возникло.
+**Уровень 3.** Попробовал HashSet, Dictionary, yield return, async/await и отмену задач. Сделал список дел с JSON и небольшую библиотеку с тестами. В Git потренировался со stash, rebase, тегами, reflog и bisect. С кодом заданий всё получилось, проблем при написании не возникло. Осталось отправить тег v1.0.0 на GitHub.
 
 
 **Дополнительно к заданию 35.** Попробовал GitHub Actions: настроил автоматическую сборку и простую проверку меню. После проверки удалил workflow, потому что он не входит в требования практикума. Подробности есть в `git-notes.md`.
