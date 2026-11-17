@@ -77,10 +77,25 @@ namespace CSharpPracticum.Menu
         /// <summary>Открывает третий уровень.</summary>
         public static void StartLevel3()
         {
-            ConsoleHelper.ShowHeader("Уровень 3: Продвинутый");
-            Console.WriteLine("Задания 36–50 пока не сделаны.");
-            Console.WriteLine("Нажмите Enter для возврата.");
-            Console.ReadLine();
+            ITask[] tasks = new ITask[]
+            {
+                new Task36_Duplicates(),
+                new Task37_Fibonacci(),
+                new Task38_ListCompare(),
+                new Task39_EvenGenerator(),
+                new Task40_Download(),
+                new Task41_WhenAll(),
+                new Task42_Cancellation(),
+                new Task43_Exceptions(),
+                new Task44_TodoList(),
+                new Task45_Library(),
+                new Task46_GitStash(),
+                new Task47_GitSquash(),
+                new Task48_GitTags(),
+                new Task49_GitReflog(),
+                new Task50_GitBisect()
+            };
+            ShowTasks("Уровень 3: Продвинутый", tasks, 36);
         }
 
         private static void ShowTasks(string title, ITask[] tasks, int firstNumber)

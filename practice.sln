@@ -4,6 +4,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpPracticum", "CSharpPracticum\CSharpPracticum\CSharpPracticum.csproj", "{71CACF36-C43B-43F0-84A5-93E3C65BBB96}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpPracticum.Tests", "CSharpPracticum\CSharpPracticum.Tests\CSharpPracticum.Tests.csproj", "{E88356C1-6183-473B-A3EF-97A7C700F145}"
+EndProject
 Global
     GlobalSection(SolutionConfigurationPlatforms) = preSolution
         Debug|Any CPU = Debug|Any CPU
@@ -14,5 +16,9 @@ Global
         {71CACF36-C43B-43F0-84A5-93E3C65BBB96}.Debug|Any CPU.Build.0 = Debug|Any CPU
         {71CACF36-C43B-43F0-84A5-93E3C65BBB96}.Release|Any CPU.ActiveCfg = Release|Any CPU
         {71CACF36-C43B-43F0-84A5-93E3C65BBB96}.Release|Any CPU.Build.0 = Release|Any CPU
+        {E88356C1-6183-473B-A3EF-97A7C700F145}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+        {E88356C1-6183-473B-A3EF-97A7C700F145}.Debug|Any CPU.Build.0 = Debug|Any CPU
+        {E88356C1-6183-473B-A3EF-97A7C700F145}.Release|Any CPU.ActiveCfg = Release|Any CPU
+        {E88356C1-6183-473B-A3EF-97A7C700F145}.Release|Any CPU.Build.0 = Release|Any CPU
     EndGlobalSection
 EndGlobal
