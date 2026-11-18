@@ -802,3 +802,24 @@ ORDER BY DepartmentId, Salary DESC, EmployeeName;
 ### Вывод
 
 RANK пропускает места после одинаковых значений, DENSE_RANK — нет.
+
+## Задание 24. SUM OVER и AVG OVER
+
+### SQL
+
+```sql
+SELECT EmployeeName, DepartmentId, Salary,
+    SUM(Salary) OVER (PARTITION BY DepartmentId) AS DepartmentTotal,
+    ROUND(AVG(Salary) OVER (PARTITION BY DepartmentId), 2) AS DepartmentAverage,
+    ROUND(Salary - AVG(Salary) OVER (PARTITION BY DepartmentId), 2) AS Difference
+FROM Employees
+ORDER BY DepartmentId, Salary DESC;
+```
+
+### Результат
+
+В разработке общая зарплата 240000, средняя 60000. У Анны отклонение +5000, у Ивана -12000.
+
+### Вывод
+
+Оконные функции считают итоги и оставляют каждую строку сотрудника.
