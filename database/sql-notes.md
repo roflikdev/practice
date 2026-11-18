@@ -624,3 +624,57 @@ GO
 ### Вывод
 
 VIEW позволяет сохранить запрос с соединением таблиц под именем.
+
+## Задание 20. Индексы
+
+### SQL
+
+```sql
+IF EXISTS (SELECT 1 FROM sys.indexes
+           WHERE name = 'IX_Employees_DepartmentId' AND object_id = OBJECT_ID('Employees'))
+    DROP INDEX IX_Employees_DepartmentId ON Employees;
+IF EXISTS (SELECT 1 FROM sys.indexes
+           WHERE name = 'IX_Employees_Salary' AND object_id = OBJECT_ID('Employees'))
+    DROP INDEX IX_Employees_Salary ON Employees;
+GO
+
+SET SHOWPLAN_TEXT ON;
+GO
+SELECT EmployeeName, Salary FROM Employees
+WHERE DepartmentId = 1 AND Salary > 50000;
+GO
+SET SHOWPLAN_TEXT OFF;
+GO
+
+SET STATISTICS IO ON;
+SELECT EmployeeName, Salary FROM Employees
+WHERE DepartmentId = 1 AND Salary > 50000;
+SET STATISTICS IO OFF;
+GO
+
+CREATE INDEX IX_Employees_DepartmentId ON Employees(DepartmentId);
+CREATE INDEX IX_Employees_Salary ON Employees(Salary);
+GO
+
+SET SHOWPLAN_TEXT ON;
+GO
+SELECT EmployeeName, Salary FROM Employees WITH (INDEX(IX_Employees_DepartmentId))
+WHERE DepartmentId = 1 AND Salary > 50000;
+GO
+SET SHOWPLAN_TEXT OFF;
+GO
+
+SET STATISTICS IO ON;
+SELECT EmployeeName, Salary FROM Employees WITH (INDEX(IX_Employees_DepartmentId))
+WHERE DepartmentId = 1 AND Salary > 50000;
+SET STATISTICS IO OFF;
+GO
+```
+
+### Результат
+
+Запрос должен вернуть Петра, Анну и Марию. План и logical reads нужно сравнить в SSMS: на 10 строках SQL Server может выбирать сканирование даже с индексами.
+
+### Вывод
+
+Создал два индекса. После них показал запрос с использованием индекса DepartmentId.
