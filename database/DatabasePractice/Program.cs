@@ -18,6 +18,7 @@ class Program
         {
             Console.WriteLine("1. Список сотрудников");
             Console.WriteLine("2. Добавить сотрудника");
+            Console.WriteLine("3. Отчёт по отделам");
             Console.WriteLine("0. Выход");
             string choice = Console.ReadLine() ?? "";
             if (choice == "0") break;
@@ -43,6 +44,10 @@ class Program
                         Console.WriteLine("Неверные данные.");
                     else
                         await AddEmployee(name, salary, departmentId);
+                }
+                else if (choice == "3")
+                {
+                    ShowDepartments();
                 }
                 else
                 {
@@ -111,6 +116,33 @@ VALUES (@name, @salary, CAST(GETDATE() AS DATE), @deptId);";
             Console.WriteLine("Добавлен: " + reader.GetString(0) + ", "
                 + reader.GetDecimal(1) + ", отдел " + reader.GetInt32(2));
         }
+    }
+
+    static void ShowDepartments()
+    {
+        using SqlConnection connection = new SqlConnection(connectionString);
+        connection.Open();
+
+        string sql = @"SELECT d.DepartmentName, COUNT(e.EmployeeId) AS EmpCount,
+    AVG(e.Salary) AS AvgSalary
+FROM Departments d
+LEFT JOIN Employees e ON d.DepartmentId = e.DepartmentId
+GROUP BY d.DepartmentName
+ORDER BY d.DepartmentName";
+
+        using SqlCommand command = new SqlCommand(sql, connection);
+        using SqlDataReader reader = command.ExecuteReader();
+
+        Console.WriteLine("{0,-20} {1,10} {2,15}", "Отдел", "Сотрудники", "Средняя");
+        bool found = false;
+        while (reader.Read())
+        {
+            string average = reader.IsDBNull(2) ? "0" : reader.GetDecimal(2).ToString("0.00");
+            Console.WriteLine("{0,-20} {1,10} {2,15}",
+                reader.GetString(0), reader.GetInt32(1), average);
+            found = true;
+        }
+        if (!found) Console.WriteLine("Отделов нет.");
     }
 
 }

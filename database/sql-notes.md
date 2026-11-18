@@ -969,3 +969,24 @@ FROM Employees WHERE EmployeeId = @id;
 ### Вывод
 
 Данные передаются через параметры, без склеивания строк SQL.
+
+## Задание 30. C# и отчёт по отделам
+
+### SQL
+
+```sql
+SELECT d.DepartmentName, COUNT(e.EmployeeId) AS EmpCount,
+    AVG(e.Salary) AS AvgSalary
+FROM Departments d
+LEFT JOIN Employees e ON d.DepartmentId = e.DepartmentId
+GROUP BY d.DepartmentName
+ORDER BY d.DepartmentName;
+```
+
+### Результат
+
+Аналитика — 3 сотрудника, средняя 57000; Менеджмент — 1, 90000; Разработка — 4, 60000; Тестирование — 2, 44000.
+
+### Вывод
+
+Отчёт выводится ровными столбцами. Пустая средняя зарплата выводится как 0.
