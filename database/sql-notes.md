@@ -866,3 +866,32 @@ ORDER BY AverageSalary DESC, DepartmentName;
 ### Вывод
 
 С CTE запрос с вычислением среднего получился понятнее.
+
+## Задание 26. CASE
+
+### SQL
+
+```sql
+SELECT EmployeeName, Salary,
+    CASE
+        WHEN Salary > 60000 THEN 'High'
+        WHEN Salary >= 40000 THEN 'Medium'
+        ELSE 'Low'
+    END AS SalaryLevel,
+    HireDate,
+    CASE
+        WHEN HireDate < '2020-01-01' THEN 'Senior'
+        WHEN HireDate < '2023-01-01' THEN 'Mid'
+        ELSE 'Junior'
+    END AS Tenure
+FROM Employees
+ORDER BY EmployeeId;
+```
+
+### Результат
+
+По зарплате 4 High и 6 Medium, Low нет. По стажу 2 Senior, 5 Mid и 3 Junior.
+
+### Вывод
+
+CASE позволяет присваивать категории по условиям.
