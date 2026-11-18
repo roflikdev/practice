@@ -388,3 +388,27 @@ WHERE Salary = (SELECT MAX(Salary) FROM Employees);
 ### Вывод
 
 Подзапрос возвращает значение для условия WHERE.
+
+## Задание 13. Подзапрос в SELECT
+
+### SQL
+
+```sql
+SELECT e.EmployeeName, e.Salary, e.DepartmentId,
+    (SELECT ROUND(AVG(e2.Salary), 2)
+     FROM Employees e2
+     WHERE e2.DepartmentId = e.DepartmentId) AS AvgSalary,
+    ROUND(e.Salary - (SELECT AVG(e2.Salary)
+                      FROM Employees e2
+                      WHERE e2.DepartmentId = e.DepartmentId), 2) AS Difference
+FROM Employees e
+ORDER BY e.EmployeeId;
+```
+
+### Результат
+
+Например, у Анны разница +5000, у Петра +12000, у Марии -5000. Для отдела 2 средняя зарплата 57000.
+
+### Вывод
+
+Среднюю можно посчитать отдельно для отдела каждого сотрудника.
