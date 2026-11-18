@@ -592,3 +592,35 @@ SELECT EmployeeName, Salary FROM Employees WHERE EmployeeId = 1;
 ### Вывод
 
 ROLLBACK отменяет изменение, COMMIT его сохраняет.
+
+## Задание 19. VIEW
+
+### SQL
+
+```sql
+IF OBJECT_ID('dbo.vw_EmployeeDetails', 'V') IS NOT NULL
+    DROP VIEW dbo.vw_EmployeeDetails;
+GO
+
+CREATE VIEW dbo.vw_EmployeeDetails AS
+SELECT e.EmployeeName, d.DepartmentName, p.ProjectName, ep.Hours
+FROM Employees e
+INNER JOIN Departments d ON e.DepartmentId = d.DepartmentId
+LEFT JOIN EmployeeProjects ep ON e.EmployeeId = ep.EmployeeId
+LEFT JOIN Projects p ON ep.ProjectId = p.ProjectId;
+GO
+
+SELECT * FROM dbo.vw_EmployeeDetails
+ORDER BY DepartmentName, EmployeeName, ProjectName;
+
+DROP VIEW dbo.vw_EmployeeDetails;
+GO
+```
+
+### Результат
+
+15 строк: 14 назначений и Наталья без проекта (ProjectName и Hours — NULL). Представление удалено.
+
+### Вывод
+
+VIEW позволяет сохранить запрос с соединением таблиц под именем.
