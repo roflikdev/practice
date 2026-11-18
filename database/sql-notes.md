@@ -945,3 +945,27 @@ ORDER BY EmployeeId;
 ### Вывод
 
 Подключение и чтение строк сделаны через SqlDataReader.
+
+## Задание 29. C# и INSERT
+
+### SQL
+
+```sql
+IF EXISTS (SELECT 1 FROM Employees WHERE EmployeeName = @name)
+    THROW 50001, 'Такой сотрудник уже есть', 1;
+
+INSERT INTO Employees (EmployeeName, Salary, HireDate, DepartmentId)
+OUTPUT INSERTED.EmployeeId
+VALUES (@name, @salary, CAST(GETDATE() AS DATE), @deptId);
+
+SELECT EmployeeName, Salary, DepartmentId
+FROM Employees WHERE EmployeeId = @id;
+```
+
+### Результат
+
+После добавления можно проверить нового сотрудника по его номеру. Повтор имени и неверный отдел обрабатываются отдельно.
+
+### Вывод
+
+Данные передаются через параметры, без склеивания строк SQL.

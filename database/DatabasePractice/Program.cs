@@ -17,6 +17,7 @@ class Program
         while (true)
         {
             Console.WriteLine("1. Список сотрудников");
+            Console.WriteLine("2. Добавить сотрудника");
             Console.WriteLine("0. Выход");
             string choice = Console.ReadLine() ?? "";
             if (choice == "0") break;
@@ -26,6 +27,22 @@ class Program
                 if (choice == "1")
                 {
                     await ShowEmployees();
+                }
+                else if (choice == "2")
+                {
+                    Console.WriteLine("Имя:");
+                    string name = Console.ReadLine() ?? "";
+                    Console.WriteLine("Зарплата:");
+                    bool okSalary = decimal.TryParse(Console.ReadLine(), out decimal salary);
+                    Console.WriteLine("Номер отдела:");
+                    bool okDepartment = int.TryParse(Console.ReadLine(), out int departmentId);
+
+                    if (string.IsNullOrWhiteSpace(name) || name.Length > 100 ||
+                        !okSalary || salary <= 0 || salary > 99999999.99m ||
+                        !okDepartment || departmentId <= 0)
+                        Console.WriteLine("Неверные данные.");
+                    else
+                        await AddEmployee(name, salary, departmentId);
                 }
                 else
                 {
@@ -60,6 +77,40 @@ class Program
             found = true;
         }
         if (!found) Console.WriteLine("Сотрудников нет.");
+    }
+
+    static async Task AddEmployee(string name, decimal salary, int departmentId)
+    {
+        using SqlConnection connection = new SqlConnection(connectionString);
+        await connection.OpenAsync();
+
+        string sql = @"
+IF EXISTS (SELECT 1 FROM Employees WHERE EmployeeName = @name)
+    THROW 50001, 'Такой сотрудник уже есть', 1;
+
+INSERT INTO Employees (EmployeeName, Salary, HireDate, DepartmentId)
+OUTPUT INSERTED.EmployeeId
+VALUES (@name, @salary, CAST(GETDATE() AS DATE), @deptId);";
+
+        using SqlCommand command = new SqlCommand(sql, connection);
+        command.Parameters.Add("@name", SqlDbType.NVarChar, 100).Value = name;
+        SqlParameter salaryParam = command.Parameters.Add("@salary", SqlDbType.Decimal);
+        salaryParam.Precision = 10;
+        salaryParam.Scale = 2;
+        salaryParam.Value = salary;
+        command.Parameters.Add("@deptId", SqlDbType.Int).Value = departmentId;
+
+        int id = Convert.ToInt32(await command.ExecuteScalarAsync());
+
+        using SqlCommand check = new SqlCommand(
+            "SELECT EmployeeName, Salary, DepartmentId FROM Employees WHERE EmployeeId = @id", connection);
+        check.Parameters.Add("@id", SqlDbType.Int).Value = id;
+        using SqlDataReader reader = await check.ExecuteReaderAsync();
+        if (await reader.ReadAsync())
+        {
+            Console.WriteLine("Добавлен: " + reader.GetString(0) + ", "
+                + reader.GetDecimal(1) + ", отдел " + reader.GetInt32(2));
+        }
     }
 
 }
