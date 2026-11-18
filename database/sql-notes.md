@@ -365,3 +365,26 @@ ORDER BY e.EmployeeId;
 ### Вывод
 
 LEFT JOIN показывает и тех, у кого нет руководителя.
+
+## Задание 12. Подзапросы в WHERE
+
+### SQL
+
+```sql
+SELECT EmployeeName, Salary
+FROM Employees
+WHERE Salary > (SELECT AVG(Salary) FROM Employees)
+ORDER BY Salary DESC;
+
+SELECT EmployeeName, Salary
+FROM Employees
+WHERE Salary = (SELECT MAX(Salary) FROM Employees);
+```
+
+### Результат
+
+Выше средней зарплаты 58900 — Алексей, Пётр, Анна и Ольга. Максимальная зарплата у Алексея — 90000.
+
+### Вывод
+
+Подзапрос возвращает значение для условия WHERE.
