@@ -478,3 +478,39 @@ UNION — 6 строк, UNION ALL — 10. Повторяются Анна, Пё�
 ### Вывод
 
 UNION убирает повторы, а UNION ALL их оставляет.
+
+## Задание 16. UPDATE
+
+### SQL
+
+```sql
+BEGIN TRANSACTION;
+
+SELECT EmployeeId, EmployeeName, Salary, HireDate
+FROM Employees ORDER BY EmployeeId;
+
+UPDATE Employees SET Salary = Salary * 1.10
+WHERE DepartmentId = 1;
+
+UPDATE Employees SET Salary = Salary + 5000
+WHERE HireDate < '2022-01-01';
+
+UPDATE Employees SET HireDate = '2023-07-01'
+WHERE EmployeeId = 7;
+
+SELECT EmployeeId, EmployeeName, Salary, HireDate
+FROM Employees ORDER BY EmployeeId;
+
+ROLLBACK TRANSACTION;
+
+SELECT EmployeeId, EmployeeName, Salary, HireDate
+FROM Employees ORDER BY EmployeeId;
+```
+
+### Результат
+
+Внутри транзакции у Анны 76500 вместо 65000, у Ивана 52800 вместо 48000. Дата Елены стала 2023-07-01. После ROLLBACK данные исходные.
+
+### Вывод
+
+Изменились только выбранные строки. Откатил изменения, чтобы не мешали следующим заданиям.
