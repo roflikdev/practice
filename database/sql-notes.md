@@ -442,3 +442,39 @@ ORDER BY e.EmployeeId;
 ### Вывод
 
 EXISTS проверяет наличие записей, NOT EXISTS — отсутствие.
+
+## Задание 15. UNION и UNION ALL
+
+### SQL
+
+```sql
+SELECT EmployeeName FROM Employees WHERE Salary > 60000
+UNION
+SELECT EmployeeName FROM Employees WHERE HireDate < '2022-01-01'
+ORDER BY EmployeeName;
+
+SELECT EmployeeName FROM Employees WHERE Salary > 60000
+UNION ALL
+SELECT EmployeeName FROM Employees WHERE HireDate < '2022-01-01'
+ORDER BY EmployeeName;
+
+SELECT COUNT(*) AS UnionCount FROM (
+    SELECT EmployeeId FROM Employees WHERE Salary > 60000
+    UNION
+    SELECT EmployeeId FROM Employees WHERE HireDate < '2022-01-01'
+) a;
+
+SELECT COUNT(*) AS UnionAllCount FROM (
+    SELECT EmployeeId FROM Employees WHERE Salary > 60000
+    UNION ALL
+    SELECT EmployeeId FROM Employees WHERE HireDate < '2022-01-01'
+) a;
+```
+
+### Результат
+
+UNION — 6 строк, UNION ALL — 10. Повторяются Анна, Пётр, Ольга и Алексей.
+
+### Вывод
+
+UNION убирает повторы, а UNION ALL их оставляет.
