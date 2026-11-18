@@ -514,3 +514,49 @@ FROM Employees ORDER BY EmployeeId;
 ### Вывод
 
 Изменились только выбранные строки. Откатил изменения, чтобы не мешали следующим заданиям.
+
+## Задание 17. DELETE
+
+### SQL
+
+```sql
+BEGIN TRANSACTION;
+
+INSERT INTO EmployeeProjects (EmployeeId, ProjectId, Hours)
+VALUES (9, 1, 0);
+
+SELECT COUNT(*) AS ZeroHoursCount FROM EmployeeProjects WHERE Hours = 0;
+DELETE FROM EmployeeProjects WHERE Hours = 0;
+SELECT COUNT(*) AS ZeroHoursCount FROM EmployeeProjects WHERE Hours = 0;
+
+SELECT * FROM EmployeeProjects WHERE EmployeeId = 8;
+DELETE FROM EmployeeProjects WHERE EmployeeId = 8;
+SELECT COUNT(*) AS AssignmentsCount FROM EmployeeProjects;
+
+SELECT * FROM Employees WHERE EmployeeId = 8;
+DELETE FROM Employees WHERE EmployeeId = 8;
+SELECT COUNT(*) AS EmployeesCount FROM Employees;
+
+SELECT * INTO #EmployeesCopy FROM Employees;
+SELECT COUNT(*) AS CopyCount FROM #EmployeesCopy;
+
+DELETE FROM #EmployeesCopy WHERE EmployeeId = 1;
+SELECT COUNT(*) AS CopyCount FROM #EmployeesCopy;
+
+DELETE FROM #EmployeesCopy;
+SELECT COUNT(*) AS CopyCount FROM #EmployeesCopy;
+
+DROP TABLE #EmployeesCopy;
+ROLLBACK TRANSACTION;
+
+SELECT COUNT(*) AS EmployeesCount FROM Employees;
+SELECT COUNT(*) AS AssignmentsCount FROM EmployeeProjects;
+```
+
+### Результат
+
+Запись с 0 часами удалена. После удаления Сергея осталось 9 сотрудников и 13 назначений. В копии после DELETE без WHERE — 0 строк. После ROLLBACK снова 10 и 14.
+
+### Вывод
+
+Сначала удалил назначения сотрудника, чтобы не нарушить внешний ключ.
