@@ -412,3 +412,33 @@ ORDER BY e.EmployeeId;
 ### Вывод
 
 Среднюю можно посчитать отдельно для отдела каждого сотрудника.
+
+## Задание 14. EXISTS и NOT EXISTS
+
+### SQL
+
+```sql
+SELECT e.EmployeeId, e.EmployeeName
+FROM Employees e
+WHERE EXISTS (
+    SELECT 1 FROM EmployeeProjects ep
+    WHERE ep.EmployeeId = e.EmployeeId
+)
+ORDER BY e.EmployeeId;
+
+SELECT e.EmployeeId, e.EmployeeName
+FROM Employees e
+WHERE NOT EXISTS (
+    SELECT 1 FROM EmployeeProjects ep
+    WHERE ep.EmployeeId = e.EmployeeId
+)
+ORDER BY e.EmployeeId;
+```
+
+### Результат
+
+Первый запрос — 9 сотрудников. Второй — Наталья Соколова.
+
+### Вывод
+
+EXISTS проверяет наличие записей, NOT EXISTS — отсутствие.
