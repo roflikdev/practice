@@ -346,3 +346,22 @@ ORDER BY d.DepartmentName, e.EmployeeName, p.ProjectName;
 
 Соединил четыре таблицы и получил список назначений.
 
+
+## Задание 11. Self-join
+
+### SQL
+
+```sql
+SELECT e.EmployeeName, m.EmployeeName AS ManagerName
+FROM Employees e
+LEFT JOIN Employees m ON e.ManagerId = m.EmployeeId
+ORDER BY e.EmployeeId;
+```
+
+### Результат
+
+У Ивана руководитель Анна, у Марии — Пётр, у Дмитрия — Ольга, у Натальи — Алексей. У остальных ManagerName = NULL.
+
+### Вывод
+
+LEFT JOIN показывает и тех, у кого нет руководителя.
