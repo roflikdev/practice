@@ -722,3 +722,49 @@ SELECT @Result AS AverageSalary;
 ### Вывод
 
 Процедура принимает номер отдела, а OUTPUT возвращает среднюю зарплату.
+
+## Задание 22. Функции
+
+### SQL
+
+```sql
+CREATE OR ALTER FUNCTION dbo.fn_GetAnnualSalary
+(
+    @MonthlySalary DECIMAL(10,2)
+)
+RETURNS DECIMAL(12,2)
+AS
+BEGIN
+    RETURN @MonthlySalary * 12;
+END;
+GO
+
+CREATE OR ALTER FUNCTION dbo.fn_GetEmployeesBySalaryRange
+(
+    @Min DECIMAL(10,2),
+    @Max DECIMAL(10,2)
+)
+RETURNS TABLE
+AS
+RETURN
+(
+    SELECT EmployeeName, Salary
+    FROM Employees
+    WHERE Salary BETWEEN @Min AND @Max
+);
+GO
+
+SELECT dbo.fn_GetAnnualSalary(65000) AS AnnualSalary;
+
+SELECT EmployeeName, Salary
+FROM dbo.fn_GetEmployeesBySalaryRange(50000, 60000)
+ORDER BY Salary DESC;
+```
+
+### Результат
+
+Годовая зарплата от 65000 — 780000. В диапазоне 50000–60000 — Дмитрий, Мария и Елена.
+
+### Вывод
+
+Скалярная функция возвращает одно число, табличная — строки.
