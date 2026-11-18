@@ -768,3 +768,37 @@ ORDER BY Salary DESC;
 ### Вывод
 
 Скалярная функция возвращает одно число, табличная — строки.
+
+## Задание 23. ROW_NUMBER, RANK, DENSE_RANK
+
+### SQL
+
+```sql
+SELECT EmployeeName, DepartmentId, Salary,
+    ROW_NUMBER() OVER (ORDER BY Salary DESC) AS RowNum,
+    RANK() OVER (PARTITION BY DepartmentId ORDER BY Salary DESC) AS SalaryRank,
+    DENSE_RANK() OVER (PARTITION BY DepartmentId ORDER BY Salary DESC) AS DenseRank
+FROM Employees
+ORDER BY DepartmentId, Salary DESC;
+
+WITH SalaryData AS
+(
+    SELECT EmployeeName, DepartmentId, Salary FROM Employees
+    UNION ALL
+    SELECT N'Пример', 1, CAST(65000 AS DECIMAL(10,2))
+)
+SELECT EmployeeName, DepartmentId, Salary,
+    ROW_NUMBER() OVER (ORDER BY Salary DESC) AS RowNum,
+    RANK() OVER (PARTITION BY DepartmentId ORDER BY Salary DESC) AS SalaryRank,
+    DENSE_RANK() OVER (PARTITION BY DepartmentId ORDER BY Salary DESC) AS DenseRank
+FROM SalaryData
+ORDER BY DepartmentId, Salary DESC, EmployeeName;
+```
+
+### Результат
+
+В исходных данных внутри отделов зарплаты не совпадают. Во втором запросе Анна и «Пример» делят 2-е место, Мария получает RANK = 4 и DENSE_RANK = 3.
+
+### Вывод
+
+RANK пропускает места после одинаковых значений, DENSE_RANK — нет.
