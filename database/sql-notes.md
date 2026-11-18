@@ -895,3 +895,35 @@ ORDER BY EmployeeId;
 ### Вывод
 
 CASE позволяет присваивать категории по условиям.
+
+## Задание 27. DATEADD, DATEDIFF, FORMAT
+
+### SQL
+
+```sql
+SELECT EmployeeName, HireDate,
+    DATEDIFF(YEAR, HireDate, GETDATE())
+        - CASE
+            WHEN DATEADD(YEAR, DATEDIFF(YEAR, HireDate, GETDATE()), HireDate)
+                 > CAST(GETDATE() AS DATE) THEN 1
+            ELSE 0
+          END AS FullYears,
+    DATEDIFF(MONTH, HireDate, GETDATE())
+        - CASE
+            WHEN DATEADD(MONTH, DATEDIFF(MONTH, HireDate, GETDATE()), HireDate)
+                 > CAST(GETDATE() AS DATE) THEN 1
+            ELSE 0
+          END AS FullMonths,
+    DATEADD(YEAR, 1, HireDate) AS AfterOneYear,
+    FORMAT(HireDate, 'dd.MM.yyyy') AS FormattedHireDate
+FROM Employees
+ORDER BY EmployeeId;
+```
+
+### Результат
+
+У Анны дата найма выводится как 15.03.2020, дата через год — 15.03.2021. Стаж в годах и месяцах зависит от текущей даты.
+
+### Вывод
+
+DATEDIFF считает границы периодов, поэтому для полных лет и месяцев добавил проверку даты.
