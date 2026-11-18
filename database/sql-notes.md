@@ -560,3 +560,35 @@ SELECT COUNT(*) AS AssignmentsCount FROM EmployeeProjects;
 ### Вывод
 
 Сначала удалил назначения сотрудника, чтобы не нарушить внешний ключ.
+
+## Задание 18. Транзакции
+
+### SQL
+
+```sql
+DECLARE @OldSalary DECIMAL(10,2);
+SELECT @OldSalary = Salary FROM Employees WHERE EmployeeId = 1;
+
+BEGIN TRANSACTION;
+UPDATE Employees SET Salary = Salary + 1000 WHERE EmployeeId = 1;
+SELECT EmployeeName, Salary FROM Employees WHERE EmployeeId = 1;
+ROLLBACK TRANSACTION;
+SELECT EmployeeName, Salary FROM Employees WHERE EmployeeId = 1;
+
+BEGIN TRANSACTION;
+UPDATE Employees SET Salary = Salary + 1000 WHERE EmployeeId = 1;
+SELECT EmployeeName, Salary FROM Employees WHERE EmployeeId = 1;
+COMMIT TRANSACTION;
+SELECT EmployeeName, Salary FROM Employees WHERE EmployeeId = 1;
+
+UPDATE Employees SET Salary = @OldSalary WHERE EmployeeId = 1;
+SELECT EmployeeName, Salary FROM Employees WHERE EmployeeId = 1;
+```
+
+### Результат
+
+Внутри транзакции было 66000, после ROLLBACK — 65000. После COMMIT осталось 66000. В конце вернул исходное значение.
+
+### Вывод
+
+ROLLBACK отменяет изменение, COMMIT его сохраняет.
