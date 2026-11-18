@@ -678,3 +678,47 @@ GO
 ### Вывод
 
 Создал два индекса. После них показал запрос с использованием индекса DepartmentId.
+
+## Задание 21. Хранимые процедуры
+
+### SQL
+
+```sql
+CREATE OR ALTER PROCEDURE dbo.sp_GetEmployeesByDepartment
+    @DeptId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT EmployeeName, Salary
+    FROM Employees
+    WHERE DepartmentId = @DeptId
+    ORDER BY Salary DESC;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE dbo.sp_GetAverageSalary
+    @DeptId INT,
+    @AvgSalary DECIMAL(10,2) OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT @AvgSalary = AVG(Salary)
+    FROM Employees
+    WHERE DepartmentId = @DeptId;
+END;
+GO
+
+EXEC dbo.sp_GetEmployeesByDepartment @DeptId = 1;
+
+DECLARE @Result DECIMAL(10,2);
+EXEC dbo.sp_GetAverageSalary @DeptId = 1, @AvgSalary = @Result OUTPUT;
+SELECT @Result AS AverageSalary;
+```
+
+### Результат
+
+По первому отделу 4 сотрудника. Средняя зарплата — 60000. Если отдела нет, средняя равна NULL.
+
+### Вывод
+
+Процедура принимает номер отдела, а OUTPUT возвращает среднюю зарплату.
