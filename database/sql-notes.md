@@ -823,3 +823,46 @@ ORDER BY DepartmentId, Salary DESC;
 ### Вывод
 
 Оконные функции считают итоги и оставляют каждую строку сотрудника.
+
+## Задание 25. CTE
+
+### SQL
+
+```sql
+SELECT EmployeeName, Salary
+FROM Employees
+WHERE Salary > (SELECT AVG(Salary) FROM Employees)
+ORDER BY Salary DESC;
+
+WITH AvgSalary AS
+(
+    SELECT AVG(Salary) AS Value FROM Employees
+)
+SELECT e.EmployeeName, e.Salary
+FROM Employees e
+CROSS JOIN AvgSalary a
+WHERE e.Salary > a.Value
+ORDER BY e.Salary DESC;
+
+WITH DepartmentAverages AS
+(
+    SELECT d.DepartmentName, AVG(e.Salary) AS AverageSalary
+    FROM Departments d
+    LEFT JOIN Employees e ON d.DepartmentId = e.DepartmentId
+    GROUP BY d.DepartmentName
+)
+SELECT TOP (3) DepartmentName, ROUND(AverageSalary, 2) AS AverageSalary
+FROM DepartmentAverages
+WHERE AverageSalary IS NOT NULL
+ORDER BY AverageSalary DESC, DepartmentName;
+
+-- CTE удобнее читать, потому что среднее считается отдельно.
+```
+
+### Результат
+
+В первых двух запросах 4 одинаковых сотрудника. Топ-3 отдела: Менеджмент — 90000, Разработка — 60000, Аналитика — 57000.
+
+### Вывод
+
+С CTE запрос с вычислением среднего получился понятнее.
