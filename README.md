@@ -2,6 +2,29 @@
 
 Консольное приложение с заданиями по C#. Все три уровня: задания 1–50.
 
+## FinanceTracker
+
+Трекер финансов на C#, WPF и .NET Framework 4.8. Можно записывать доходы и расходы, смотреть текущий баланс и историю операций. Данные хранятся в MS SQL Server, подключение — через ADO.NET.
+
+![FinanceTracker](FinanceTracker/images/finance-tracker.png)
+
+### Как запустить
+
+1. Установите Visual Studio с компонентами «Разработка классических приложений .NET» и пакетом разработки .NET Framework 4.8. Для базы нужны MS SQL Server (подойдёт Express) и SQL Server Management Studio.
+2. Подключитесь к своему SQL Server в Management Studio. Откройте [init.sql](FinanceTracker/FinanceTracker/init.sql) и выполните его целиком. Скрипт создаст базу `FinanceTracker`, таблицы и связи. Для первого запуска нужны права на создание базы. Повторное выполнение не удаляет существующие записи.
+3. Откройте [FinanceTracker.csproj](FinanceTracker/FinanceTracker/FinanceTracker.csproj) в Visual Studio.
+4. В [App.config](FinanceTracker/FinanceTracker/App.config) измените строку подключения `FinanceTracker`: в `Data Source` укажите имя своего сервера. Например, для SQL Server Express с авторизацией Windows:
+
+   ```text
+   Data Source=.\SQLEXPRESS;Initial Catalog=FinanceTracker;Integrated Security=True;Encrypt=True;TrustServerCertificate=True;Connect Timeout=5
+   ```
+
+   Если используете логин SQL Server, замените `Integrated Security=True` на `User ID=ваш_логин;Password=ваш_пароль`. У пользователя должны быть права чтения таблиц и добавления записей в `dbo.Operations`. `TrustServerCertificate=True` оставлен для локального подключения к учебной базе.
+
+5. Назначьте FinanceTracker запускаемым проектом и нажмите **F5**. При запуске через готовый exe строка подключения находится в файле `FinanceTracker.exe.config` рядом с приложением.
+
+Новая база пустая, начальный баланс — 0 ₽. Выберите доход или расход, введите положительную сумму (например, `1500` или `250,50`), дату и при желании описание. Нажмите «Добавить запись» — история и баланс обновятся. Доходы отмечены зелёным, расходы — красным. Кнопка «Обновить» повторно загружает данные из базы.
+
 ## Запуск
 
 ```bash
