@@ -6,11 +6,20 @@ namespace FinanceTracker
 {
     public class Database
     {
-        private readonly string connectionString = ConfigurationManager.ConnectionStrings["FinanceTracker"].ConnectionString;
+        private string ConnectionString
+        {
+            get
+            {
+                var settings = ConfigurationManager.ConnectionStrings["FinanceTracker"];
+                if (settings == null || string.IsNullOrWhiteSpace(settings.ConnectionString))
+                    throw new ConfigurationErrorsException("Не указана строка подключения FinanceTracker.");
+                return settings.ConnectionString;
+            }
+        }
 
         public DataTable GetOperations()
         {
-            using (var connection = new SqlConnection(connectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             using (var adapter = new SqlDataAdapter(@"
                 SELECT o.Id, o.OperationDate, t.Name AS TypeName, o.Description,
                        CASE WHEN o.TypeId = 1 THEN o.Amount ELSE -o.Amount END AS Amount
@@ -26,7 +35,7 @@ namespace FinanceTracker
 
         public void AddOperation(int typeId, decimal amount, System.DateTime date, string description)
         {
-            using (var connection = new SqlConnection(connectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             using (var command = new SqlCommand(@"
                 INSERT INTO dbo.Operations (TypeId, Amount, OperationDate, Description)
                 VALUES (@type, @amount, @date, @description)", connection))

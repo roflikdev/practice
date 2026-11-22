@@ -51,6 +51,10 @@ namespace FinanceTracker.views
             }
             catch (Exception)
             {
+                HistoryGrid.ItemsSource = null;
+                BalanceText.Text = "—";
+                IncomeText.Text = "—";
+                ExpenseText.Text = "—";
                 StatusText.Text = "Не удалось загрузить историю. Проверьте подключение к базе данных и нажмите «Обновить».";
             }
             finally
@@ -70,13 +74,14 @@ namespace FinanceTracker.views
                 AmountBox.Focus();
                 return;
             }
-            if (!DateBox.SelectedDate.HasValue)
+            DateTime enteredDate;
+            if (!DateTime.TryParse(DateBox.Text, culture, DateTimeStyles.None, out enteredDate))
             {
                 StatusText.Text = "Выберите дату операции.";
                 return;
             }
             int type = TypeBox.SelectedIndex == 1 ? 1 : 2;
-            DateTime date = DateBox.SelectedDate.Value;
+            DateTime date = enteredDate.Date;
             string description = DescriptionBox.Text.Trim();
             SetBusy(true);
             try
@@ -103,6 +108,10 @@ namespace FinanceTracker.views
         {
             AddButton.IsEnabled = !busy;
             RefreshButton.IsEnabled = !busy;
+            TypeBox.IsEnabled = !busy;
+            AmountBox.IsEnabled = !busy;
+            DateBox.IsEnabled = !busy;
+            DescriptionBox.IsEnabled = !busy;
         }
     }
 }
