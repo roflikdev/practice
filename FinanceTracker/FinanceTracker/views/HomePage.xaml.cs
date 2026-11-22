@@ -1,28 +1,108 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System;
+using System.Data;
+using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace FinanceTracker.views
 {
-    /// <summary>
-    /// Логика взаимодействия для HomePage.xaml
-    /// </summary>
     public partial class HomePage : Page
     {
+        private readonly Database database = new Database();
+        private readonly CultureInfo culture = CultureInfo.GetCultureInfo("ru-RU");
+
         public HomePage()
         {
             InitializeComponent();
+            DateBox.SelectedDate = DateTime.Today;
+        }
+
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            await LoadOperations();
+        }
+
+        private async Task LoadOperations()
+        {
+            SetBusy(true);
+            StatusText.Text = "Загрузка...";
+            try
+            {
+                var table = await Task.Run(() => database.GetOperations());
+                HistoryGrid.ItemsSource = table.DefaultView;
+                decimal income = 0;
+                decimal expense = 0;
+                foreach (DataRow row in table.Rows)
+                {
+                    decimal amount = (decimal)row["Amount"];
+                    if (amount > 0)
+                        income += amount;
+                    else
+                        expense -= amount;
+                }
+                decimal balance = income - expense;
+                BalanceText.Text = balance.ToString("N2", culture) + " ₽";
+                BalanceText.Foreground = balance < 0 ? Brushes.Firebrick : Brushes.ForestGreen;
+                IncomeText.Text = income.ToString("N2", culture) + " ₽";
+                ExpenseText.Text = expense.ToString("N2", culture) + " ₽";
+                StatusText.Text = table.Rows.Count == 0 ? "Пока нет записей. Добавьте первый доход или расход." : "Записей: " + table.Rows.Count;
+            }
+            catch (Exception)
+            {
+                StatusText.Text = "Не удалось загрузить историю. Проверьте подключение к базе данных и нажмите «Обновить».";
+            }
+            finally
+            {
+                SetBusy(false);
+            }
+        }
+
+        private async void Add_Click(object sender, RoutedEventArgs e)
+        {
+            decimal amount;
+            string value = AmountBox.Text.Trim().Replace(',', '.');
+            if (!decimal.TryParse(value, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out amount)
+                || amount <= 0 || amount > 9999999999.99m || decimal.Round(amount, 2) != amount)
+            {
+                StatusText.Text = "Введите положительную сумму с точностью до копеек (не больше 9 999 999 999,99).";
+                AmountBox.Focus();
+                return;
+            }
+            if (!DateBox.SelectedDate.HasValue)
+            {
+                StatusText.Text = "Выберите дату операции.";
+                return;
+            }
+            int type = TypeBox.SelectedIndex == 1 ? 1 : 2;
+            DateTime date = DateBox.SelectedDate.Value;
+            string description = DescriptionBox.Text.Trim();
+            SetBusy(true);
+            try
+            {
+                await Task.Run(() => database.AddOperation(type, amount, date, description));
+            }
+            catch (Exception)
+            {
+                StatusText.Text = "Не удалось сохранить запись. Проверьте подключение и обновите историю перед повторной попыткой.";
+                SetBusy(false);
+                return;
+            }
+            AmountBox.Clear();
+            DescriptionBox.Clear();
+            await LoadOperations();
+        }
+
+        private async void Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            await LoadOperations();
+        }
+
+        private void SetBusy(bool busy)
+        {
+            AddButton.IsEnabled = !busy;
+            RefreshButton.IsEnabled = !busy;
         }
     }
 }

@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FinanceTracker"
         mc:Ignorable="d"
-        Title="Трекер Финансов" Height="450" Width="800">
+        Title="Трекер финансов" Height="720" Width="940" MinHeight="650" MinWidth="850"
+        WindowStartupLocation="CenterScreen" Language="ru-RU">
     <Grid>
-        <Frame Source="views/HomePage.xaml"></Frame>
+        <Frame Source="views/HomePage.xaml" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>
